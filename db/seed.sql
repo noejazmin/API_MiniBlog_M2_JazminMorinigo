@@ -1,38 +1,44 @@
-INSERT INTO authors (name, email)
+INSERT INTO authors (name, email, bio)
 VALUES
-('Ana García', 'ana@example.com'),
-('Carlos Ruiz', 'carlos@example.com'),
-('María López', 'maria@example.com');
+('Ana Garcia', 'ana@example.com', 'Desarrolladora backend y autora de contenidos sobre Node.js.'),
+('Carlos Ruiz', 'carlos@example.com', 'Administrador de bases de datos y mentor tecnico.'),
+('Maria Lopez', 'maria@example.com', 'Frontend developer interesada en APIs REST.');
 
-INSERT INTO posts (title, content, author_id)
+INSERT INTO posts (title, content, author_id, published)
 VALUES
 (
-    'Introducción a Node.js',
-    'Node.js es un entorno de ejecución para JavaScript.',
-    1
+    'Introduccion a Node.js',
+    'Node.js es un entorno de ejecucion para JavaScript.',
+    1,
+    true
 ),
 (
     'PostgreSQL vs MySQL',
     'Comparativa entre bases de datos relacionales.',
-    2
+    2,
+    true
 ),
 (
     'REST APIs',
     'Las APIs REST permiten comunicar frontend y backend.',
-    1
+    1,
+    false
 );
 
-INSERT INTO comments (content, post_id)
+INSERT INTO comments (content, post_id, author_id)
 VALUES
 (
-    'Excelente explicación sobre Node.',
-    1
-),
-(
-    'Muy útil la comparación.',
+    'Excelente explicacion sobre Node.',
+    1,
     2
 ),
 (
-    'Me ayudó a entender REST.',
+    'Muy util la comparacion.',
+    2,
     3
+),
+(
+    'Me ayudo a entender REST.',
+    3,
+    1
 );

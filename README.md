@@ -9,7 +9,7 @@ API REST desarrollada con Node.js, Express y PostgreSQL para gestionar autores, 
 - PostgreSQL
 - pg
 - dotenv
-- Jest
+- Vitest
 - Supertest
 
 ## Estado del proyecto
