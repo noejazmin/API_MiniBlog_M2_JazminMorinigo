@@ -1,9 +1,11 @@
 const express = require("express");
 const pool = require("./db/pool");
+const authorsRouter = require("./routes/authors.routes");
 
 const app = express();
 
 app.use(express.json());
+app.use("/authors", authorsRouter);
 
 app.get("/health", (req, res) => {
   res.status(200).json({
