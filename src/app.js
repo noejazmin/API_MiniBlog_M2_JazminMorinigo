@@ -1,4 +1,5 @@
 const express = require("express");
+const pool = require("./db/pool");
 
 const app = express();
 
@@ -9,6 +10,24 @@ app.get("/health", (req, res) => {
     status: "ok",
     message: "Servidor funcionando",
   });
+});
+
+app.get("/db-test", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+
+    res.status(200).json({
+      status: "ok",
+      message: "Conexión a PostgreSQL funcionando",
+      databaseTime: result.rows[0].now,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error al conectar con PostgreSQL",
+      error: error.message,
+    });
+  }
 });
 
 module.exports = app;
