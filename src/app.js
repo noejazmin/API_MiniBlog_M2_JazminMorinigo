@@ -2,6 +2,7 @@ const express = require("express");
 const pool = require("./db/pool");
 const authorsRouter = require("./routes/authors.routes");
 const postsRouter = require("./routes/posts.routes");
+const commentsRouter = require("./routes/comments.routes");
 
 
 const app = express();
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 app.use("/authors", authorsRouter);
 app.use("/posts", postsRouter);
+app.use("/comments", commentsRouter);
 
 app.get("/health", (req, res) => {
   res.status(200).json({
