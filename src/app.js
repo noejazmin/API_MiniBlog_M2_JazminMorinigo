@@ -3,6 +3,8 @@ const pool = require("./db/pool");
 const authorsRouter = require("./routes/authors.routes");
 const postsRouter = require("./routes/posts.routes");
 const commentsRouter = require("./routes/comments.routes");
+const errorMiddleware = require("./middlewares/error.middleware");
+
 
 
 const app = express();
@@ -36,5 +38,7 @@ app.get("/db-test", async (req, res) => {
     });
   }
 });
+
+app.use(errorMiddleware);
 
 module.exports = app;
