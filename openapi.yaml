@@ -1,0 +1,260 @@
+openapi: 3.0.3
+info:
+  title: API MiniBlog M2
+  version: 1.0.0
+  description: API REST con Node.js, Express y PostgreSQL para gestionar authors, posts y comments.
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+paths:
+  /health:
+    get:
+      summary: Verificar estado del servidor
+      responses:
+        "200":
+          description: Servidor funcionando
+
+  /authors:
+    get:
+      summary: Listar authors
+      responses:
+        "200":
+          description: Lista de authors
+    post:
+      summary: Crear author
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorInput"
+      responses:
+        "201":
+          description: Author creado
+        "400":
+          description: Datos invalidos
+        "409":
+          description: Email duplicado
+
+  /authors/{id}:
+    get:
+      summary: Obtener author por id
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Author encontrado
+        "400":
+          description: Id invalido
+        "404":
+          description: Author no encontrado
+    put:
+      summary: Actualizar author
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorInput"
+      responses:
+        "200":
+          description: Author actualizado
+        "400":
+          description: Datos invalidos
+        "404":
+          description: Author no encontrado
+        "409":
+          description: Email duplicado
+    delete:
+      summary: Eliminar author
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Author eliminado
+        "400":
+          description: Id invalido
+        "404":
+          description: Author no encontrado
+
+  /posts:
+    get:
+      summary: Listar posts
+      responses:
+        "200":
+          description: Lista de posts
+    post:
+      summary: Crear post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostInput"
+      responses:
+        "201":
+          description: Post creado
+        "400":
+          description: Datos invalidos
+        "404":
+          description: Author no encontrado
+
+  /posts/{id}:
+    get:
+      summary: Obtener post por id
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Post encontrado
+        "400":
+          description: Id invalido
+        "404":
+          description: Post no encontrado
+    put:
+      summary: Actualizar post
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostInput"
+      responses:
+        "200":
+          description: Post actualizado
+        "400":
+          description: Datos invalidos
+        "404":
+          description: Post o author no encontrado
+    delete:
+      summary: Eliminar post
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "200":
+          description: Post eliminado
+        "400":
+          description: Id invalido
+        "404":
+          description: Post no encontrado
+
+  /posts/author/{authorId}:
+    get:
+      summary: Listar posts de un author con detalle del author
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de posts del author
+        "400":
+          description: AuthorId invalido
+
+  /comments:
+    get:
+      summary: Listar comments
+      responses:
+        "200":
+          description: Lista de comments
+    post:
+      summary: Crear comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentInput"
+      responses:
+        "201":
+          description: Comment creado
+        "400":
+          description: Datos invalidos
+        "404":
+          description: Post o author no encontrado
+
+  /comments/post/{postId}:
+    get:
+      summary: Listar comments de un post
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de comments del post
+        "400":
+          description: PostId invalido
+
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  schemas:
+    AuthorInput:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          example: Ana Garcia
+        email:
+          type: string
+          example: ana@example.com
+        bio:
+          type: string
+          example: Autora de contenidos backend.
+
+    PostInput:
+      type: object
+      required:
+        - title
+        - content
+        - author_id
+      properties:
+        title:
+          type: string
+          example: Introduccion a Node.js
+        content:
+          type: string
+          example: Node.js permite ejecutar JavaScript en el servidor.
+        author_id:
+          type: integer
+          example: 1
+        published:
+          type: boolean
+          example: true
+
+    CommentInput:
+      type: object
+      required:
+        - content
+        - post_id
+        - author_id
+      properties:
+        content:
+          type: string
+          example: Muy buen post.
+        post_id:
+          type: integer
+          example: 1
+        author_id:
+          type: integer
+          example: 1
