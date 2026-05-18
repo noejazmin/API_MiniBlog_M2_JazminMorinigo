@@ -1,11 +1,10 @@
 const express = require("express");
-const pool = require("./db/pool");
 const authorsRouter = require("./routes/authors.routes");
 const postsRouter = require("./routes/posts.routes");
 const commentsRouter = require("./routes/comments.routes");
+const { testConnection } = require("./db/test-connection");
+const notFoundMiddleware = require("./middlewares/notFound.middleware");
 const errorMiddleware = require("./middlewares/error.middleware");
-
-
 
 const app = express();
 
@@ -23,12 +22,12 @@ app.get("/health", (req, res) => {
 
 app.get("/db-test", async (req, res) => {
   try {
-    const result = await pool.query("SELECT NOW()");
+    const databaseTime = await testConnection();
 
     res.status(200).json({
       status: "ok",
       message: "Conexión a PostgreSQL funcionando",
-      databaseTime: result.rows[0].now,
+      databaseTime,
     });
   } catch (error) {
     res.status(500).json({
@@ -39,6 +38,7 @@ app.get("/db-test", async (req, res) => {
   }
 });
 
+app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
 module.exports = app;
