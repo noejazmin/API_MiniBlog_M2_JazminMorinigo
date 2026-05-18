@@ -8,9 +8,9 @@ const {
 
 const router = express.Router();
 
-const isInvalidId = (id) => {
-    return isNaN(Number(id));
-};
+const { validateCommentData } = require("../validators/comments.validator");
+const { isInvalidId } = require("../validators/id.validator");
+
 
 router.get("/", async (req, res) => {
     try {
@@ -50,21 +50,11 @@ router.post("/", async (req, res) => {
     try {
         const { content, post_id, author_id } = req.body;
 
-        if (!content || !post_id || !author_id) {
-            return res.status(400).json({
-                message: "Content, post_id y author_id son obligatorios",
-            });
-        }
+        const validationError = validateCommentData(req.body);
 
-        if (isInvalidId(post_id)) {
+        if (validationError) {
             return res.status(400).json({
-                message: "El post_id debe ser un numero",
-            });
-        }
-
-        if (isInvalidId(author_id)) {
-            return res.status(400).json({
-                message: "El author_id debe ser un numero",
+                message: validationError,
             });
         }
 

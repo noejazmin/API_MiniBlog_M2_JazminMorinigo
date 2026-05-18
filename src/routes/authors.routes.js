@@ -8,11 +8,10 @@ const {
     deleteAuthor,
 } = require("../services/authors.service");
 
-const router = express.Router();
+const { validateAuthorData } = require("../validators/authors.validator");
+const { isInvalidId } = require("../validators/id.validator");
 
-const isInvalidId = (id) => {
-    return isNaN(Number(id));
-};
+const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
@@ -58,9 +57,11 @@ router.post("/", async (req, res) => {
     try {
         const { name, email, bio } = req.body;
 
-        if (!name || !email) {
+        const validationError = validateAuthorData(req.body);
+
+        if (validationError) {
             return res.status(400).json({
-                message: "Name y email son obligatorios",
+                message: validationError,
             });
         }
 
@@ -92,11 +93,13 @@ router.put("/:id", async (req, res) => {
             });
         }
 
-        if (!name || !email) {
+        const validationError = validateAuthorData(req.body);
+
+        if (validationError) {
             return res.status(400).json({
-                message: "Name y email son obligatorios",
+                message: validationError,
             });
-        }
+        }   
 
         const updatedAuthor = await updateAuthor(id, { name, email, bio });
 

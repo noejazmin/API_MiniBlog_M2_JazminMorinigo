@@ -11,9 +11,9 @@ const {
 
 const router = express.Router();
 
-const isInvalidId = (id) => {
-    return isNaN(Number(id));
-};
+const { validatePostData } = require("../validators/posts.validator");
+const { isInvalidId } = require("../validators/id.validator");
+
 
 router.get("/", async (req, res) => {
     try {
@@ -80,17 +80,14 @@ router.post("/", async (req, res) => {
     try {
         const { title, content, author_id, published } = req.body;
 
-        if (!title || !content || !author_id) {
+        const validationError = validatePostData(req.body);
+
+        if (validationError) {
             return res.status(400).json({
-                message: "Title, content y author_id son obligatorios",
+                message: validationError,
             });
         }
 
-        if (isInvalidId(author_id)) {
-            return res.status(400).json({
-                message: "El author_id debe ser un numero",
-            });
-        }
 
         const newPost = await createPost({
             title,
@@ -125,17 +122,14 @@ router.put("/:id", async (req, res) => {
             });
         }
 
-        if (!title || !content || !author_id) {
+        const validationError = validatePostData(req.body);
+
+        if (validationError) {
             return res.status(400).json({
-                message: "Title, content y author_id son obligatorios",
+                message: validationError,
             });
         }
 
-        if (isInvalidId(author_id)) {
-            return res.status(400).json({
-                message: "El author_id debe ser un numero",
-            });
-        }
 
         const updatedPost = await updatePost(id, {
             title,
