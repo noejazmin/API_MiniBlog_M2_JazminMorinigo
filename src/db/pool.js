@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { loadEnvFile } = require('node:process');
 
+const fs = require('node:fs');
     if (fs.existsSync('.env')) {
         loadEnvFile('.env');
         }
