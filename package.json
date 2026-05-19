@@ -22,8 +22,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "swagger-ui-express": "^5.0.1",
-    "yamljs": "^0.3.0",
-    "build": "tsc"
+    "yamljs": "^0.3.0"
   },
   "repository": {
     "type": "git",
