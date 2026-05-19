@@ -3,10 +3,21 @@ info:
   title: API MiniBlog M2
   version: 1.0.0
   description: API REST con Node.js, Express y PostgreSQL para gestionar authors, posts y comments.
+  contact:
+    name: Jazmin Morinigo
+    email: noejazminmrivas@gmail.com
 
 servers:
   - url: http://localhost:3000
     description: Servidor local
+  - url:
+
+
+tags:
+  - name: Health
+    description: Endpoints para verificar el estado del servidor
+  - name: routes
+    description: Endpoints para gestionar authors, posts y comments
 
 paths:
   /health:

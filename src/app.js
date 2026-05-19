@@ -1,7 +1,10 @@
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
 const authorsRouter = require("./routes/authors.routes");
 const postsRouter = require("./routes/posts.routes");
 const commentsRouter = require("./routes/comments.routes");
+const swaggerDocument = YAML.load("./openapi.yaml");
 const { testConnection } = require("./db/test-connection");
 const notFoundMiddleware = require("./middlewares/notFound.middleware");
 const errorMiddleware = require("./middlewares/error.middleware");
@@ -9,6 +12,7 @@ const errorMiddleware = require("./middlewares/error.middleware");
 const app = express();
 
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/authors", authorsRouter);
 app.use("/posts", postsRouter);
 app.use("/comments", commentsRouter);
