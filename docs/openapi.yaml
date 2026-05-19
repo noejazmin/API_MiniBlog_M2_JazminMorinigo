@@ -292,14 +292,23 @@ components:
           example: 1
         name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: Ana Garcia
+          description: Nombre del autor
         email:
           type: string
+          format: email
+          minLength: 1
+          maxLength: 150
           example: ana@example.com
+          description: Email único del autor
         bio:
           type: string
           nullable: true
+          maxLength: 1000
           example: Autora de contenidos backend.
+          description: Biografía del autor
 
     AuthorInput:
       type: object
@@ -309,13 +318,22 @@ components:
       properties:
         name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: Ana Garcia
+          description: Nombre del autor (requerido)
         email:
           type: string
+          format: email
+          minLength: 1
+          maxLength: 150
           example: ana@example.com
+          description: Email único del autor (requerido)
         bio:
           type: string
+          maxLength: 1000
           example: Autora de contenidos backend.
+          description: Biografía opcional del autor
 
     Post:
       type: object
@@ -323,22 +341,32 @@ components:
         id:
           type: integer
           example: 1
+          description: ID único del post
         title:
           type: string
+          minLength: 1
+          maxLength: 255
           example: Introduccion a Node.js
+          description: Título del post
         content:
           type: string
+          minLength: 1
+          maxLength: 10000
           example: Node.js permite ejecutar JavaScript en el servidor.
+          description: Contenido del post
         author_id:
           type: integer
           example: 1
+          description: ID del autor del post
         published:
           type: boolean
           example: true
+          description: Estado de publicación del post
         created_at:
           type: string
           format: date-time
           example: 2024-05-19T10:30:00Z
+          description: Fecha de creación del post
 
     PostInput:
       type: object
@@ -349,16 +377,24 @@ components:
       properties:
         title:
           type: string
+          minLength: 1
+          maxLength: 255
           example: Introduccion a Node.js
+          description: Título del post (requerido)
         content:
           type: string
+          minLength: 1
+          maxLength: 10000
           example: Node.js permite ejecutar JavaScript en el servidor.
+          description: Contenido del post (requerido)
         author_id:
           type: integer
           example: 1
+          description: ID del autor del post (requerido)
         published:
           type: boolean
           example: true
+          description: Estado de publicación del post (opcional)
 
     PostWithAuthor:
       type: object
@@ -366,32 +402,51 @@ components:
         id:
           type: integer
           example: 1
+          description: ID único del post
         title:
           type: string
+          minLength: 1
+          maxLength: 255
           example: Introduccion a Node.js
+          description: Título del post
         content:
           type: string
+          minLength: 1
+          maxLength: 10000
           example: Node.js permite ejecutar JavaScript en el servidor.
+          description: Contenido del post
         published:
           type: boolean
           example: true
+          description: Estado de publicación del post
         created_at:
           type: string
           format: date-time
           example: 2024-05-19T10:30:00Z
+          description: Fecha de creación del post
         author_id:
           type: integer
           example: 1
+          description: ID del autor
         author_name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: Ana Garcia
+          description: Nombre del autor
         author_email:
           type: string
+          format: email
+          minLength: 1
+          maxLength: 150
           example: ana@example.com
+          description: Email del autor
         author_bio:
           type: string
           nullable: true
+          maxLength: 1000
           example: Autora de contenidos backend.
+          description: Biografía del autor
 
     Comment:
       type: object
@@ -399,19 +454,26 @@ components:
         id:
           type: integer
           example: 1
+          description: ID único del comentario
         content:
           type: string
+          minLength: 1
+          maxLength: 5000
           example: Muy buen post.
+          description: Contenido del comentario
         post_id:
           type: integer
           example: 1
+          description: ID del post comentado
         author_id:
           type: integer
           example: 1
+          description: ID del autor del comentario
         created_at:
           type: string
           format: date-time
           example: 2024-05-19T11:15:00Z
+          description: Fecha de creación del comentario
 
     CommentInput:
       type: object
@@ -422,13 +484,18 @@ components:
       properties:
         content:
           type: string
+          minLength: 1
+          maxLength: 5000
           example: Muy buen post.
+          description: Contenido del comentario (requerido)
         post_id:
           type: integer
           example: 1
+          description: ID del post a comentar (requerido)
         author_id:
           type: integer
           example: 1
+          description: ID del autor del comentario (requerido)
 
     CommentWithDetails:
       type: object
@@ -436,25 +503,42 @@ components:
         id:
           type: integer
           example: 1
+          description: ID único del comentario
         content:
           type: string
+          minLength: 1
+          maxLength: 5000
           example: Muy buen post.
+          description: Contenido del comentario
         created_at:
           type: string
           format: date-time
           example: 2024-05-19T11:15:00Z
+          description: Fecha de creación del comentario
         post_id:
           type: integer
           example: 1
+          description: ID del post comentado
         post_title:
           type: string
+          minLength: 1
+          maxLength: 255
           example: Introduccion a Node.js
+          description: Título del post comentado
         author_id:
           type: integer
           example: 1
+          description: ID del autor del comentario
         author_name:
           type: string
+          minLength: 1
+          maxLength: 100
           example: Ana Garcia
+          description: Nombre del autor del comentario
         author_email:
           type: string
+          format: email
+          minLength: 1
+          maxLength: 150
           example: ana@example.com
+          description: Email del autor del comentario
