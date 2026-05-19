@@ -13,6 +13,11 @@ const app = express();
 
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.get("/openapi.yaml", (req, res) => {
+  res.sendFile("openapi.yaml", { root: "docs" });
+});
+
 app.use("/authors", authorsRouter);
 app.use("/posts", postsRouter);
 app.use("/comments", commentsRouter);
