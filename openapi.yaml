@@ -34,6 +34,12 @@ paths:
       responses:
         "200":
           description: Lista de authors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Author"
     post:
       summary: Crear author
       requestBody:
@@ -45,6 +51,10 @@ paths:
       responses:
         "201":
           description: Author creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
         "400":
           description: Datos invalidos
         "409":
@@ -58,6 +68,10 @@ paths:
       responses:
         "200":
           description: Author encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
         "400":
           description: Id invalido
         "404":
@@ -75,6 +89,10 @@ paths:
       responses:
         "200":
           description: Author actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
         "400":
           description: Datos invalidos
         "404":
@@ -88,6 +106,10 @@ paths:
       responses:
         "200":
           description: Author eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
         "400":
           description: Id invalido
         "404":
@@ -99,6 +121,12 @@ paths:
       responses:
         "200":
           description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
     post:
       summary: Crear post
       requestBody:
@@ -110,6 +138,10 @@ paths:
       responses:
         "201":
           description: Post creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
         "400":
           description: Datos invalidos
         "404":
@@ -123,6 +155,10 @@ paths:
       responses:
         "200":
           description: Post encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
         "400":
           description: Id invalido
         "404":
@@ -140,6 +176,10 @@ paths:
       responses:
         "200":
           description: Post actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
         "400":
           description: Datos invalidos
         "404":
@@ -151,6 +191,10 @@ paths:
       responses:
         "200":
           description: Post eliminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
         "400":
           description: Id invalido
         "404":
@@ -168,6 +212,12 @@ paths:
       responses:
         "200":
           description: Lista de posts del author
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PostWithAuthor"
         "400":
           description: AuthorId invalido
 
@@ -177,6 +227,12 @@ paths:
       responses:
         "200":
           description: Lista de comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CommentWithDetails"
     post:
       summary: Crear comment
       requestBody:
@@ -188,6 +244,10 @@ paths:
       responses:
         "201":
           description: Comment creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
         "400":
           description: Datos invalidos
         "404":
@@ -205,6 +265,12 @@ paths:
       responses:
         "200":
           description: Lista de comments del post
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CommentWithDetails"
         "400":
           description: PostId invalido
 
@@ -218,6 +284,23 @@ components:
         type: integer
 
   schemas:
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Ana Garcia
+        email:
+          type: string
+          example: ana@example.com
+        bio:
+          type: string
+          nullable: true
+          example: Autora de contenidos backend.
+
     AuthorInput:
       type: object
       required:
@@ -233,6 +316,29 @@ components:
         bio:
           type: string
           example: Autora de contenidos backend.
+
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Introduccion a Node.js
+        content:
+          type: string
+          example: Node.js permite ejecutar JavaScript en el servidor.
+        author_id:
+          type: integer
+          example: 1
+        published:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-05-19T10:30:00Z
 
     PostInput:
       type: object
@@ -254,6 +360,59 @@ components:
           type: boolean
           example: true
 
+    PostWithAuthor:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Introduccion a Node.js
+        content:
+          type: string
+          example: Node.js permite ejecutar JavaScript en el servidor.
+        published:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-05-19T10:30:00Z
+        author_id:
+          type: integer
+          example: 1
+        author_name:
+          type: string
+          example: Ana Garcia
+        author_email:
+          type: string
+          example: ana@example.com
+        author_bio:
+          type: string
+          nullable: true
+          example: Autora de contenidos backend.
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        content:
+          type: string
+          example: Muy buen post.
+        post_id:
+          type: integer
+          example: 1
+        author_id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-05-19T11:15:00Z
+
     CommentInput:
       type: object
       required:
@@ -270,3 +429,32 @@ components:
         author_id:
           type: integer
           example: 1
+
+    CommentWithDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        content:
+          type: string
+          example: Muy buen post.
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-05-19T11:15:00Z
+        post_id:
+          type: integer
+          example: 1
+        post_title:
+          type: string
+          example: Introduccion a Node.js
+        author_id:
+          type: integer
+          example: 1
+        author_name:
+          type: string
+          example: Ana Garcia
+        author_email:
+          type: string
+          example: ana@example.com
